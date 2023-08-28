@@ -1,0 +1,18 @@
+deploy:
+runs-on: ubuntu-latest
+needs: build
+environment:
+name: 'production'
+url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+steps:
+- name: Deploy to Azure Web App
+id: deploy-to-webapp
+uses: azure/webapps-deploy@v2
+with:
+app-name: 'shell7SB1'
+slot-name: 'production'
+publish-profile: ${{
+secrets.AzureAppService_PublishProfile_0425239420454e2d87725d19a92feb3d }}
+images: 'index.docker.io/${{
+secrets.AzureAppService_ContainerUsername_aaa07ab7057541748b79e07390bd9ed0
+}}/hrb1989/javasp1:${{ github.sha }}
